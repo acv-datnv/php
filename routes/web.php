@@ -15,20 +15,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('admin/login', 'AuthController@getLogin');
+Route::post('admin/login', 'AuthController@postLogin');
+Route::get('admin/logout', 'AuthController@getLogout');
+
 Route::group(['prefix'=>'admin'], function (){
-
-  Route::group(['prefix'=>'post'], function (){
-
-    Route::get('list', 'PostController@getList');
-
-    Route::get('add', 'PostController@getAdd');
-    Route::post('add', 'PostController@postAdd');
-
-    Route::get('edit/{id}', 'PostController@getEdit');
-    Route::post('edit/{id}', 'PostController@postEdit');
-
-    Route::get('delete/{id}', 'PostController@getDelete');
-
-  });
-
+  Route::resource('user','UsersController');
+  Route::resource('category','CategoriesController');
+  Route::resource('post','PostController');
 });

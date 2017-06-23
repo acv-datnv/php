@@ -7,7 +7,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Tin tức
+                    <h1 class="page-header">Categories
                         <small>list</small>
                     </h1>
                 </div>
@@ -24,32 +24,24 @@
                     <thead>
                     <tr align="center">
                         <th>ID</th>
-                        <th>Tác giả</th>
-                        <th>Category</th>
-                        <th>Tiêu đề</th>
-                        <th>Nội dung</th>
-                        <th>Hình ảnh</th>
+                        <th>Tên</th>
                         <th>Delete</th>
                         <th>Edit</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($list_post as $lp)
+                    @foreach($list_cat as $lc)
                         <tr class="odd gradeX" align="center">
-                            <td>{{$lp->id}}</td>
-                            <td>{{$lp->user->name}}</td>
-                            <td>{{$lp->category->name}}</td>
-                            <td>{{$lp->title}}</td>
-                            <td>{{$lp->content}}</td>
-                            <td><img style="max-width: 130px" src="uploads/post/{{$lp->image}}" alt=""></td>
+                            <td>{{$lc->id}}</td>
+                            <td>{{$lc->name}}</td>
                             <td class="center">
-                              {!! Form::open(array('route'=>array('post.destroy',$lp->id),'method'=>'DELETE')) !!}
+                              {!! Form::open(array('route'=>array('category.destroy',$lc->id),'method'=>'DELETE')) !!}
                               <button type="submit">
                                 <i class="fa fa-trash-o  fa-fw"></i>Delete
                               </button>
                               {!! Form::close() !!}
                             </td>
-                            <td class="center"><i class="fa fa-pencil fa-fw"></i> <a href="{!! route('post.edit',$lp->id) !!}">Edit</a></td>
+                            <td class="center"><i class="fa fa-pencil fa-fw"></i> <a href="{!! route('category.edit',$lc->id) !!}">Edit</a></td>
                         </tr>
                     @endforeach
                     </tbody>

@@ -29,24 +29,41 @@
                 @endif
 
                 <div class="col-lg-7" style="padding-bottom:120px">
-                    <form action="admin/post/edit/{{$post_edit->id}}" method="POST" enctype="multipart/form-data">
+                    {!! Form::open(array('route'=>array('post.update',$post_edit->id),'method'=>'PUT')) !!}
                         <input type="hidden" name="_token" value="{{csrf_token()}}">
                         <div class="form-group">
+                            <label>Tác giả</label>
+                            <input class="form-control" name="txtAuth" placeholder="Nhập tác giả" value="{{$post_edit->user->name}}" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select class="form-control" name="slcCategory">
+                                @foreach ($all_cat as $ac)
+                                  <option
+                                    @if($post_edit->category->id == $ac->id)
+                                    {{"selected"}}
+                                    @endif
+                                    value="{{$ac->id}}">{{$ac->name}}
+                                  </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label>Tiêu đề</label>
-                            <input class="form-control" name="txtTitle" placeholder="Nhập tiêu đề" value="{{$post_edit->title}}" />
+                            <input class="form-control" name="txtTitle" placeholder="Nhập tiêu đề" value="{!! old('txtTitle',isset($post_edit) ? $post_edit['title'] : null) !!}" />
                         </div>
                         <div class="form-group">
                             <label>Nội dung</label>
-                            <textarea name="txtContent" class="form-control ckeditor">{{$post_edit->content}}</textarea>
+                            <textarea name="txtContent" class="form-control ckeditor">{!! old('txtContent',isset($post_edit) ? $post_edit['content'] : null) !!}</textarea>
                         </div>
                         <div class="form-group">
                             <label>Hình ảnh</label>
-                            <p><img width="350px" src="uploads/post/{{$post_edit->image}}" alt=""></p>
+                            <p><img width="350px" src="uploads/post/{!! old('fImage',isset($post_edit) ? $post_edit['image'] : null) !!}" alt=""></p>
                             <input type="file" name="fImage" class="form-control" />
                         </div>
                         <button type="submit" class="btn btn-default">Edit Post</button>
                         <button type="reset" class="btn btn-default">Reset</button>
-                    </form>
+                    {!! Form::close() !!}
                 </div>
             </div>
             <!-- /.row -->

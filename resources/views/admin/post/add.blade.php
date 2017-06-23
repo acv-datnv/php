@@ -29,8 +29,25 @@
             @endif
 
             <div class="col-lg-7" style="padding-bottom:120px">
-                <form action="admin/post/add" method="POST" enctype="multipart/form-data">
+                <form action="{!! route('post.store') !!}" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="{{csrf_token()}}">
+                    <div class="form-group">
+                        <label>Tác giả</label>
+                        <input class="form-control" name="txtAuth" placeholder="Nhập tác giả" value="{{Auth::user()->name}}" disabled />
+                        <input type="hidden" name="txtUser" value="{{Auth::user()->id}}">
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select class="form-control" name="slcCategory">
+                            @if(count($all_cat) > 0)
+                              @foreach ($all_cat as $ac)
+                                <option value="{{$ac->id}}">{{$ac->name}}</option>
+                              @endforeach
+                            @else
+                              <option>Hãy tạo category trước khi viết bài</option>
+                            @endif
+                        </select>
+                    </div>
                     <div class="form-group">
                         <label>Tiêu đề</label>
                         <input class="form-control" name="txtTitle" placeholder="Nhập tiêu đề" />

@@ -16,16 +16,37 @@
                 <a href="#"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
             </li>
             <li>
-                <a href="admin/post/list"><i class="fa fa-bar-chart-o fa-fw"></i>Tin tức<span class="fa arrow"></span></a>
+                <a href="admin/user"><i class="fa fa-bar-chart-o fa-fw"></i>Users<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="admin/post/list">Danh sách tin tức</a>
+                        <a href="admin/user">Danh sách user</a>
                     </li>
                     <li>
-                        <a href="admin/post/add">Thêm tin tức mới</a>
+                        <a href="admin/user/create">Thêm user mới</a>
                     </li>
                 </ul>
-                <!-- /.nav-second-level -->
+            </li>
+            <li>
+                <a href="admin/category"><i class="fa fa-bar-chart-o fa-fw"></i>Categories<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="admin/category">Danh sách categories</a>
+                    </li>
+                    <li>
+                        <a href="admin/category/create">Thêm category mới</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="admin/post"><i class="fa fa-bar-chart-o fa-fw"></i>Tin tức<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="admin/post">Danh sách tin tức</a>
+                    </li>
+                    <li>
+                        <a href="admin/post/create">Thêm tin tức mới</a>
+                    </li>
+                </ul>
             </li>
         </ul>
     </div>

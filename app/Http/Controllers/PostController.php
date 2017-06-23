@@ -3,22 +3,26 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
+use App\Categories;
 use App\Post;
 
 class PostController extends Controller
 {
-    public function getList()
+    public function index()
     {
       $list_post = Post::all();
-      return view('admin/post/list',['list_post'=>$list_post]);
+      return view('admin.post.list',['list_post'=>$list_post]);
     }
 
-    public function getAdd()
+    public function create()
     {
-      return view('admin.post.add');
+      $all_cat = Categories::all();
+      
+      return view('admin.post.add',['all_cat'=>$all_cat]);
     }
 
-    public function postAdd(Request $request)
+    public function store(Request $request)
     {
       $this->validate($request,
         [
@@ -34,15 +38,17 @@ class PostController extends Controller
           'txtContent.required' => 'Bạn chưa nhập nội dung'
         ]);
       $post_add = new Post;
+      $post_add->author_id = $request->txtUser;
+      $post_add->cat_id = $request->slcCategory;
       $post_add->title = $request->txtTitle;
       $post_add->content = $request->txtContent;
       if ($request->hasFile('fImage'))
       {
         $file = $request->file('fImage');
         $extension = $file->getClientOriginalExtension();
-        if ($extension != 'png' && $extension != 'jpg' && $extension != 'jpeg')
+        if ($extension != 'png' && $extension != 'jpg' && $extension != 'gif')
         {
-          return redirect('admin/post/them')->with('er_message','Bạn chỉ có thể thêm ảnh png, jpg, jpeg');
+          return redirect()->route('post.create')->with('er_message','Bạn chỉ có thể thêm ảnh png, jpg, gif');
         }
         $name = $file->getClientOriginalName();
         $image = str_random(4) . "_" . $name;
@@ -57,21 +63,21 @@ class PostController extends Controller
       {
         $post_add->image = "abc";
       }
-
       $post_add->save();
 
-      return redirect('admin/post/add')->with('message','Đã thêm thành công!');
+      return redirect()->route('post.index')->with('message','Thêm thành công!');
     }
 
-    public function getEdit($id)
+    public function edit($id)
     {
-      $post_edit = Post::find($id);
-      return view('admin.post.edit',['post_edit'=>$post_edit]);
+      $all_cat = Categories::all();
+      $post_edit = Post::findOrFail($id);
+      return view('admin.post.edit',compact('post_edit','all_cat'));
     }
 
-    public function postEdit(Request $request, $id)
+    public function update(Request $request, $id)
     {
-      $post_edit = Post::find($id);
+      $post_edit = Post::findOrFail($id);
       $this->validate($request,
         [
           'txtTitle' => 'required|min:3|max:150',
@@ -84,6 +90,7 @@ class PostController extends Controller
 
           'txtContent.required' => 'Bạn chưa nhập nội dung'
         ]);
+      $post_edit->cat_id = $request->slcCategory;
       $post_edit->title = $request->txtTitle;
       $post_edit->content = $request->txtContent;
       if ($request->hasFile('fImage'))
@@ -92,7 +99,7 @@ class PostController extends Controller
         $extension = $file->getClientOriginalExtension();
         if ($extension != 'png' && $extension != 'jpg' && $extension != 'gif')
         {
-          return redirect('admin/post/them')->with('er_message','Bạn chỉ có thể thêm ảnh png, jpg, gif');
+          return redirect()->route('post.create')->with('er_message','Bạn chỉ có thể thêm ảnh png, jpg, gif');
         }
         $name = $file->getClientOriginalName();
         $image = str_random(4) . "_" . $name;
@@ -105,17 +112,16 @@ class PostController extends Controller
         unlink("uploads/post/".$post_edit->image);
         $post_edit->image = $image;
       }
-
       $post_edit->save();
 
-      return redirect('admin/post/edit/'.$id)->with('message','Sửa thành công!');
+      return redirect()->route('post.edit',$id)->with('message','Sửa thành công!');
     }
 
-    public function getDelete($id)
+    public function destroy($id)
     {
       $post_del = Post::find($id);
       $post_del->delete();
 
-      return redirect('admin/post/list')->with('message','Đã xóa bài viết!');
+      return redirect()->route('post.index')->with('message','Đã xóa bài viết!');
     }
 }
