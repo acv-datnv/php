@@ -58,8 +58,8 @@
                         </div>
                         <div class="form-group">
                             <label>Hình ảnh</label>
-                            <p><img width="350px" src="uploads/post/{!! old('fImage',isset($post_edit) ? $post_edit['image'] : null) !!}" alt=""></p>
-                            <input type="file" name="fImage" class="form-control" />
+                            <p><img id="displayImage" width="350px" src="uploads/post/{!! old('fImage',isset($post_edit) ? $post_edit['image'] : null) !!}" alt=""></p>
+                            <input type="file" name="fImage" class="form-control" id="btnAddImage" onchange="readURL(this);" />
                         </div>
                         <button type="submit" class="btn btn-default">Edit Post</button>
                         <button type="reset" class="btn btn-default">Reset</button>
@@ -72,4 +72,18 @@
     </div>
     <!-- /#page-wrapper -->
 
+@endsection
+
+@section('script')
+<script type="text/javascript">
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#displayImage').attr('src', e.target.result);
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+  }
+</script>
 @endsection

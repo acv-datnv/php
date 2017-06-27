@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\User;
 
 class UsersController extends Controller
@@ -38,31 +40,44 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,
-          [
-            'txtName' => 'required|min:3|max:100',
-            'txtEmail' => 'required|unique:Users,email',
-            'txtPass' => 'required|min:8|max:100'
-          ],
-          [
-            'txtName.required' => 'Bạn phải nhập tên!',
-            'txtName.min' => 'Tên > 3 và < 100 ký tự!',
-            'txtName.max' => 'Tên > 3 và < 100 ký tự!',
+      $this->validate($request,
+        [
+          'txtName' => 'required|min:3|max:100',
+          'txtEmail' => 'required|unique:Users,email',
+          'txtPass' => 'required|min:8|max:100'
+        ],
+        [
+          'txtName.required' => 'Bạn phải nhập tên!',
+          'txtName.min' => 'Tên > 3 và < 100 ký tự!',
+          'txtName.max' => 'Tên > 3 và < 100 ký tự!',
 
-            'txtEmail.required' => 'Bạn cần nhập email',
-            'txtEmail.unique' => 'Email đã tồn tại',
+          'txtEmail.required' => 'Bạn cần nhập email',
+          'txtEmail.unique' => 'Email đã tồn tại',
 
-            'txtPass.required' => 'Bạn chưa nhập password!',
-            'txtPass.min' => 'Password > 8 và < 100 ký tự!',
-            'txtPass.max' => 'Password > 8 và < 100 ký tự!'
-          ]);
-          $store_user = new User;
-          $store_user->name = $request->txtName;
-          $store_user->email = $request->txtEmail;
-          $store_user->password = Hash::make($request->txtPass);
-          $store_user->save();
+          'txtPass.required' => 'Bạn chưa nhập password!',
+          'txtPass.min' => 'Password > 8 và < 100 ký tự!',
+          'txtPass.max' => 'Password > 8 và < 100 ký tự!'
+        ]);
+        $store_user = new User;
+        $store_user->name = $request->txtName;
+        $store_user->email = $request->txtEmail;
+        $store_user->password = Hash::make($request->txtPass);
+        $store_user->save();
 
-          return redirect()->route('user.index')->with('message','Thêm thành công!');
+        return redirect()->route('user.index')->with('message','Thêm thành công!');
+    }
+
+    public function checkEmailAjax(Request $request)
+    {
+      if ( $request->ajax() ) {
+        $email_db = User::where('email',$request->txtEmail)->get();
+        if(count($email_db) > 0){
+          return response(['msg' => 'Email exitsted', 'status' => 'success']);
+        } else {
+          return response(['msg' => 'Email not exitsted', 'status' => 'failed']);
+        }
+      }
+      return response(['msg' => 'Ajax Checked Fail', 'status' => 'failed']);
     }
 
     /**
@@ -85,7 +100,7 @@ class UsersController extends Controller
     public function edit($id)
     {
         $edit_user = User::findOrFail($id);
-        
+
         return view('admin.user.edit',compact('edit_user'));
     }
 

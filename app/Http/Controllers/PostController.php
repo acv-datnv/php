@@ -18,7 +18,7 @@ class PostController extends Controller
     public function create()
     {
       $all_cat = Categories::all();
-      
+
       return view('admin.post.add',['all_cat'=>$all_cat]);
     }
 
@@ -58,10 +58,6 @@ class PostController extends Controller
         }
         $file->move("uploads/post/", $image);
         $post_add->image = $image;
-      }
-      else
-      {
-        $post_add->image = "abc";
       }
       $post_add->save();
 
@@ -117,11 +113,15 @@ class PostController extends Controller
       return redirect()->route('post.edit',$id)->with('message','Sửa thành công!');
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-      $post_del = Post::find($id);
-      $post_del->delete();
+      $post_del = Post::findOrFail($id);
 
-      return redirect()->route('post.index')->with('message','Đã xóa bài viết!');
+      if ( $request->ajax() ) {
+          $post_del->delete( $request->all() );
+
+          return response(['msg' => 'Post deleted', 'status' => 'success']);
+      }
+      return response(['msg' => 'Failed deleting the post', 'status' => 'failed']);
     }
 }

@@ -11,8 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/admin', function () {
+    return view('admin.login');
 });
 
 Route::get('admin/login', 'AuthController@getLogin');
@@ -24,3 +24,5 @@ Route::group(['prefix'=>'admin'], function (){
   Route::resource('category','CategoriesController');
   Route::resource('post','PostController');
 });
+
+Route::post('admin/user/checkemail', 'UsersController@checkEmailAjax');

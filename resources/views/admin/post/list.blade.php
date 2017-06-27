@@ -1,5 +1,9 @@
 @extends('admin.layout.index')
 
+@section('meta')
+<meta name="_token" content="{!! csrf_token() !!}" />
+@endsection
+
 @section('content')
 
     <!-- Page Content -->
@@ -43,10 +47,8 @@
                             <td>{{$lp->content}}</td>
                             <td><img style="max-width: 130px" src="uploads/post/{{$lp->image}}" alt=""></td>
                             <td class="center">
-                              {!! Form::open(array('route'=>array('post.destroy',$lp->id),'method'=>'DELETE')) !!}
-                              <button type="submit">
-                                <i class="fa fa-trash-o  fa-fw"></i>Delete
-                              </button>
+                              {!! Form::open(['method' => 'DELETE', 'class' => 'formDeletePost', 'action' => ['PostController@destroy', $lp->id]]) !!}
+                                {!! Form::button( '<i class="fa fa-trash fa-lg"></i>', ['type' => 'submit', 'class' => 'text-danger btnDeletePost', 'data-id' => $lp->id ] ) !!}
                               {!! Form::close() !!}
                             </td>
                             <td class="center"><i class="fa fa-pencil fa-fw"></i> <a href="{!! route('post.edit',$lp->id) !!}">Edit</a></td>
@@ -61,4 +63,42 @@
     </div>
     <!-- /#page-wrapper -->
 
+@endsection
+
+@section('script')
+  <script type="text/javascript">
+  $(document).ready(function() {
+
+    $.ajaxSetup({
+      headers: {
+          'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+      }
+    });
+
+    $('.btnDeletePost').on('click', function(e) {
+      var obj = $(this);
+      var inputData = $('.formDeletePost').serialize();
+      var dataId = $(this).attr('data-id');
+      $.ajax({
+          url: "{!! url('/admin/post') !!}" + "/" + dataId,
+          type: 'POST',
+          data: inputData,
+          success: function( msg ) {
+              if ( msg.status === 'success' ) {
+                  $(obj).closest("tr").remove();
+              }
+              eval(msg.Script);
+          },
+          error: function( data ) {
+              if ( data.status === 422 ) {
+                  toastr.error('Cannot delete');
+              }
+          }
+      });
+
+      return false;
+    });
+  });
+
+  </script>
 @endsection

@@ -1,7 +1,6 @@
 @extends('admin.layout.index')
 
 @section('content')
-
 <!-- Page Content -->
 <div id="page-wrapper">
     <div class="container-fluid">
@@ -58,7 +57,8 @@
                     </div>
                     <div class="form-group">
                         <label>Hình ảnh</label>
-                        <input type="file" name="fImage" class="form-control" />
+                        <p><img id="displayImage" style="max-width:100%" /></p>
+                        <input type="file" name="fImage" class="form-control" id="btnAddImage" onchange="readURL(this);" />
                     </div>
                     <button type="submit" class="btn btn-default">Add Post</button>
                     <button type="reset" class="btn btn-default">Reset</button>
@@ -71,4 +71,18 @@
 </div>
 <!-- /#page-wrapper -->
 
+@endsection
+
+@section('script')
+<script type="text/javascript">
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#displayImage').attr('src', e.target.result);
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+  }
+</script>
 @endsection

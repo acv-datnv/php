@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="">
+    @yield('meta')
     <title>Admin</title>
     <base href="{{asset('')}}}">
 
@@ -63,7 +64,7 @@
     });
 </script>
 <script type="text/javascript" language="javascript" src="admin_assets/ckeditor/ckeditor.js" ></script>
-    @yield('script')
+@yield('script')
 </body>
 
 </html>
