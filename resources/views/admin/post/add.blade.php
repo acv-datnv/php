@@ -32,14 +32,14 @@
                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                     <div class="form-group">
                         <label>Tác giả</label>
-                        <input class="form-control" name="txtAuth" placeholder="Nhập tác giả" value="{{Auth::user()->name}}" disabled />
-                        <input type="hidden" name="txtUser" value="{{Auth::user()->id}}">
+                        <input class="form-control" name="authorName" placeholder="Nhập tác giả" value="{{Auth::user()->name}}" disabled />
+                        <input type="hidden" name="authorId" value="{{Auth::user()->id}}">
                     </div>
                     <div class="form-group">
                         <label>Category</label>
-                        <select class="form-control" name="slcCategory">
-                            @if(count($all_cat) > 0)
-                              @foreach ($all_cat as $ac)
+                        <select class="form-control" name="catId">
+                            @if(count($allCat) > 0)
+                              @foreach ($allCat as $ac)
                                 <option value="{{$ac->id}}">{{$ac->name}}</option>
                               @endforeach
                             @else
@@ -49,11 +49,11 @@
                     </div>
                     <div class="form-group">
                         <label>Tiêu đề</label>
-                        <input class="form-control" name="txtTitle" placeholder="Nhập tiêu đề" />
+                        <input class="form-control" name="title" placeholder="Nhập tiêu đề" />
                     </div>
                     <div class="form-group">
                         <label>Nội dung</label>
-                        <textarea name="txtContent" class="form-control ckeditor"></textarea>
+                        <textarea name="content" class="form-control ckeditor"></textarea>
                     </div>
                     <div class="form-group">
                         <label>Hình ảnh</label>

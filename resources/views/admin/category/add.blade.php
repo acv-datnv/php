@@ -33,7 +33,7 @@
                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                     <div class="form-group">
                         <label>Tên</label>
-                        <input class="form-control" name="txtName" placeholder="Nhập tên category" />
+                        <input class="form-control" name="name" placeholder="Nhập tên category" />
                     </div>
                     <button type="submit" class="btn btn-default">Add category</button>
                     <button type="reset" class="btn btn-default">Reset</button>

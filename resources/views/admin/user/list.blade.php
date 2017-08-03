@@ -27,17 +27,19 @@
                         <th>Tên</th>
                         <th>Email</th>
                         <th>Password</th>
+                        <td>Quyền</td>
                         <th>Delete</th>
                         <th>Edit</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($list_user as $lu)
+                    @foreach($listUser as $lu)
                         <tr class="odd gradeX" align="center">
                             <td>{{$lu->id}}</td>
                             <td>{{$lu->name}}</td>
                             <td>{{$lu->email}}</td>
                             <td>{{$lu->password}}</td>
+                            <td>{{$lu->roles->name}}</td>
                             <td class="center">
                               {!! Form::open(array('route'=>array('user.destroy',$lu->id),'method'=>'DELETE')) !!}
                               <button type="submit">
@@ -50,6 +52,9 @@
                     @endforeach
                     </tbody>
                 </table>
+                <a href="{{ URL::to('admin/user/export') }}"><button class="btn btn-success">Download Excel xls</button></a>
+                <a href="{{ URL::to('admin/user/export') }}"><button class="btn btn-success">Download Excel xlsx</button></a>
+                <a href="{{ URL::to('admin/user/export') }}"><button class="btn btn-success">Download CSV</button></a>
             </div>
             <!-- /.row -->
         </div>

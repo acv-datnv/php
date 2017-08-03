@@ -1,12 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
+use App\Services\CategoryService;
 use Illuminate\Http\Request;
 use App\Categories;
 
 class CategoriesController extends Controller
 {
+    protected $categoryService;
+
+    public function __construct(CategoryService $categoryService)
+    {
+        $this->categoryService = $categoryService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,9 +25,9 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-      $list_cat = Categories::all();
+      $listCat = Categories::all();
 
-      return view('admin.category.list',['list_cat'=>$list_cat]);
+      return view('admin.category.list',['listCat'=>$listCat]);
     }
 
     /**
@@ -35,20 +46,12 @@ class CategoriesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateCategoryRequest $request)
     {
-        $this->validate($request,
-          [
-            'txtName' => 'required|min:3|max:100'
-          ],
-          [
-            'txtName.required' => 'Bạn phải nhập tên!',
-            'txtName.min' => 'Tên > 3 và < 100 ký tự!',
-            'txtName.max' => 'Tên > 3 và < 100 ký tự!'
-          ]);
-        $store_cat = new Categories;
-        $store_cat->name = $request->txtName;
-        $store_cat->save();
+        $category = $this->categoryService->createCategory($request->all());
+        if (!$category){
+            throw new \Exception('server error', 500);
+        }
 
         return redirect()->route('category.create')->with('message','Thêm thành công!');
     }
@@ -72,9 +75,9 @@ class CategoriesController extends Controller
      */
     public function edit($id)
     {
-        $edit_cat = Categories::findOrFail($id);
+        $editCat = Categories::findOrFail($id);
         
-        return view('admin.category.edit',compact('edit_cat'));
+        return view('admin.category.edit',compact('editCat'));
     }
 
     /**
@@ -84,20 +87,12 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateCategoryRequest $request, $id)
     {
-      $this->validate($request,
-        [
-          'txtName' => 'required|min:3|max:100'
-        ],
-        [
-          'txtName.required' => 'Bạn phải nhập tên!',
-          'txtName.min' => 'Tên > 3 và < 100 ký tự!',
-          'txtName.max' => 'Tên > 3 và < 100 ký tự!'
-        ]);
-      $update_cat = Categories::findOrFail($id);
-      $update_cat->name = $request->txtName;
-      $update_cat->save();
+      $category = $this->categoryService->updateCategory($request->all(), $id);
+      if (!$category){
+          throw new \Exception('server error', 500);
+      }
 
       return redirect()->route('category.index')->with('message','Sửa thành công!');
     }
@@ -110,8 +105,8 @@ class CategoriesController extends Controller
      */
     public function destroy($id)
     {
-        $destroy_cat = Categories::findOrFail($id);
-        $destroy_cat->delete();
+        $destroyCat = Categories::findOrFail($id);
+        $destroyCat->delete();
 
         return redirect()->route('category.index')->with('message','Xóa thành công!');
     }

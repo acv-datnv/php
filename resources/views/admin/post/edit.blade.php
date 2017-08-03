@@ -29,18 +29,18 @@
                 @endif
 
                 <div class="col-lg-7" style="padding-bottom:120px">
-                    {!! Form::open(array('route'=>array('post.update',$post_edit->id),'method'=>'PUT')) !!}
+                    {!! Form::open(array('route'=>array('post.update',$editPost->id),'method'=>'PUT')) !!}
                         <input type="hidden" name="_token" value="{{csrf_token()}}">
                         <div class="form-group">
                             <label>Tác giả</label>
-                            <input class="form-control" name="txtAuth" placeholder="Nhập tác giả" value="{{$post_edit->user->name}}" disabled />
+                            <input class="form-control" name="authorName" placeholder="Nhập tác giả" value="{{$editPost->user->name}}" disabled />
                         </div>
                         <div class="form-group">
                             <label>Category</label>
-                            <select class="form-control" name="slcCategory">
-                                @foreach ($all_cat as $ac)
+                            <select class="form-control" name="catId">
+                                @foreach ($allCat as $ac)
                                   <option
-                                    @if($post_edit->category->id == $ac->id)
+                                    @if($editPost->category->id == $ac->id)
                                     {{"selected"}}
                                     @endif
                                     value="{{$ac->id}}">{{$ac->name}}
@@ -50,15 +50,15 @@
                         </div>
                         <div class="form-group">
                             <label>Tiêu đề</label>
-                            <input class="form-control" name="txtTitle" placeholder="Nhập tiêu đề" value="{!! old('txtTitle',isset($post_edit) ? $post_edit['title'] : null) !!}" />
+                            <input class="form-control" name="title" placeholder="Nhập tiêu đề" value="{!! old('txtTitle',isset($editPost) ? $editPost['title'] : null) !!}" />
                         </div>
                         <div class="form-group">
                             <label>Nội dung</label>
-                            <textarea name="txtContent" class="form-control ckeditor">{!! old('txtContent',isset($post_edit) ? $post_edit['content'] : null) !!}</textarea>
+                            <textarea name="content" class="form-control ckeditor">{!! old('txtContent',isset($editPost) ? $editPost['content'] : null) !!}</textarea>
                         </div>
                         <div class="form-group">
                             <label>Hình ảnh</label>
-                            <p><img id="displayImage" width="350px" src="uploads/post/{!! old('fImage',isset($post_edit) ? $post_edit['image'] : null) !!}" alt=""></p>
+                            <p><img id="displayImage" width="350px" src="uploads/post/{!! old('fImage',isset($editPost) ? $editPost['image'] : null) !!}" alt=""></p>
                             <input type="file" name="fImage" class="form-control" id="btnAddImage" onchange="readURL(this);" />
                         </div>
                         <button type="submit" class="btn btn-default">Edit Post</button>

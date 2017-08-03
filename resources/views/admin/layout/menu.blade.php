@@ -48,6 +48,14 @@
                     </li>
                 </ul>
             </li>
+            <li>
+                <a href="admin/comment"><i class="fa fa-bar-chart-o fa-fw"></i>Bình luận<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="admin/comment">Danh sách bình luận</a>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </div>
     <!-- /.sidebar-collapse -->

@@ -38,7 +38,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($list_post as $lp)
+                    @foreach($listPost as $lp)
                         <tr class="odd gradeX" align="center">
                             <td>{{$lp->id}}</td>
                             <td>{{$lp->user->name}}</td>
@@ -47,7 +47,7 @@
                             <td>{{$lp->content}}</td>
                             <td><img style="max-width: 130px" src="uploads/post/{{$lp->image}}" alt=""></td>
                             <td class="center">
-                              {!! Form::open(['method' => 'DELETE', 'class' => 'formDeletePost', 'action' => ['PostController@destroy', $lp->id]]) !!}
+                              {!! Form::open(array('route'=>array('category.destroy',$lp->id),'method'=>'DELETE', 'class' => 'formDeletePost')) !!}
                                 {!! Form::button( '<i class="fa fa-trash fa-lg"></i>', ['type' => 'submit', 'class' => 'text-danger btnDeletePost', 'data-id' => $lp->id ] ) !!}
                               {!! Form::close() !!}
                             </td>

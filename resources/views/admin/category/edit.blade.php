@@ -29,11 +29,11 @@
                 @endif
 
                 <div class="col-lg-7" style="padding-bottom:120px">
-                    {!! Form::open(array('route'=>array('category.update',$edit_cat->id),'method'=>'PUT')) !!}
+                    {!! Form::open(array('route'=>array('category.update',$editCat->id),'method'=>'PUT')) !!}
                         <input type="hidden" name="_token" value="{{csrf_token()}}">
                         <div class="form-group">
                             <label>Tên</label>
-                            <input class="form-control" name="txtName" placeholder="Nhập tên" value="{!! old('txtName',isset($edit_cat) ? $edit_cat['name'] : null) !!}" />
+                            <input class="form-control" name="name" placeholder="Nhập tên" value="{!! old('txtName',isset($editCat) ? $editCat['name'] : null) !!}" />
                         </div>
                         <button type="submit" class="btn btn-default">Edit Post</button>
                         <button type="reset" class="btn btn-default">Reset</button>

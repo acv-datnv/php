@@ -30,7 +30,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($list_cat as $lc)
+                    @foreach($listCat as $lc)
                         <tr class="odd gradeX" align="center">
                             <td>{{$lc->id}}</td>
                             <td>{{$lc->name}}</td>

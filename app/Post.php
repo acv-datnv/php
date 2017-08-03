@@ -6,7 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    protected $table = "Posts";
+    protected $table = "posts";
+
+    protected $fillable = [
+        'title',
+        'content',
+        'image',
+        'cat_id',
+        'author_id'
+    ];
 
     public function category()
     {
@@ -16,5 +24,10 @@ class Post extends Model
     public function user()
     {
         return $this->belongsTo('App\User', 'author_id');
+    }
+
+    public function comment()
+    {
+      return $this->hasMany('App\Comment', 'post_id', 'id')->orderBy('created_at', 'desc');
     }
 }

@@ -34,17 +34,27 @@
                 <form action="{!! route('user.store') !!}" method="POST" enctype="multipart/form-data" class="formAddPost">
                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                     <div class="form-group">
+                        <label>Quyền</label>
+                        <select class="form-control" name="role">
+                            @if(count($allRole) > 0)
+                              @foreach ($allRole as $al)
+                                <option value="{{$al->id}}">{{$al->name}}</option>
+                              @endforeach
+                            @endif
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label>Tên</label>
-                        <input class="form-control" name="txtName" placeholder="Nhập tên user" />
+                        <input class="form-control" name="name" placeholder="Nhập tên user" />
                     </div>
                     <div class="form-group">
                         <label>Email</label>
                         <p class="text-danger" id="email-error"></p>
-                        <input type="email" class="form-control" name="txtEmail" placeholder="Nhập email" id="email" />
+                        <input type="email" class="form-control" name="email" placeholder="Nhập email" id="email" />
                     </div>
                     <div class="form-group">
                         <label>Password</label>
-                        <input type="password" class="form-control" name="txtPass" placeholder="Nhập password" />
+                        <input type="password" class="form-control" name="password" placeholder="Nhập password" />
                     </div>
                     <button type="submit" class="btn btn-default">Add user</button>
                     <button type="reset" class="btn btn-default">Reset</button>
